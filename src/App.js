@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React, { Component } from "react";
+import { CardList } from "./components/card-list/card-list.component";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      text: "sup mane",
+      clicks: 0,
+      monsters: [],
+    };
+  }
+
+  componentDidMount() {
+    this.getMonster();
+  }
+
+  async getMonster() {
+    const res = await fetch("https://jsonplaceholder.typicode.com/users");
+    const monsters = await res.json();
+    this.setState({ monsters: monsters });
+    // console.log(this.state.monsters);
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <p>{this.state.clicks}</p>
+        <button
+          onClick={() => this.setState({ clicks: this.state.clicks + 1 })}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+          change text
+        </button>
 
+        <CardList monsters={this.state.monsters}>
+          
+        </CardList>
+      </div>
+    );
+  }
+}
 export default App;
