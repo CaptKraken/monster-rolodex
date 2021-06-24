@@ -10,6 +10,7 @@ class App extends Component {
       text: "sup mane",
       clicks: 0,
       monsters: [],
+      searchField: "",
     };
   }
 
@@ -25,18 +26,28 @@ class App extends Component {
   }
 
   render() {
+    const { monsters, searchField } = this.state;
+    const filteredMonsters = monsters.filter((monster) =>
+      monster.name.toLowerCase().includes(searchField.toLowerCase())
+    );
+
     return (
       <div className="App">
-        <p>{this.state.clicks}</p>
+        {/* <p>{this.state.clicks}</p>
         <button
           onClick={() => this.setState({ clicks: this.state.clicks + 1 })}
         >
           change text
-        </button>
+        </button> */}
+        <input
+          type="search"
+          placeholder="search monsters..."
+          onChange={(e) => {
+            this.setState({ searchField: e.target.value });
+          }}
+        />
 
-        <CardList monsters={this.state.monsters}>
-          
-        </CardList>
+        <CardList monsters={filteredMonsters}></CardList>
       </div>
     );
   }
